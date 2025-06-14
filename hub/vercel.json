@@ -1,0 +1,8 @@
+{
+  "rewrites": [
+    {
+      "source": "/dma-store/:match*",
+      "destination": "https://razzosx-monorepo-rc7.vercel.app/:match*"
+    }
+  ]
+}
