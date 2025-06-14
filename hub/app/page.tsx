@@ -3,6 +3,7 @@ import { useState } from "react"
 import { ExternalLink, Zap, ShoppingBag } from "lucide-react"
 import { usePageTransition } from "@/hooks/use-page-transition"
 import { Snowflakes } from "@/components/snowflakes"
+import Link from "next/link"
 
 export default function HomePage() {
   const [hoveredButton, setHoveredButton] = useState<string | null>(null)
@@ -81,56 +82,49 @@ export default function HomePage() {
             </div>
           </a>
 
-          {/* Razzosx DMA Button - No redirection */}
-          <div
-            className="group relative flex-1 cursor-pointer"
-            onMouseEnter={() => setHoveredButton("store")}
-            onMouseLeave={() => setHoveredButton(null)}
-          >
-            {/* Hover glow effect */}
-            <div
-              className={`absolute inset-0 bg-gradient-to-r from-[#393E46] to-[#222831] rounded-2xl blur-lg transition-all duration-500 ${
-                hoveredButton === "store" ? "opacity-60 scale-105" : "opacity-0 scale-100"
-              }`}
-            ></div>
-
-            {/* Main button */}
-            <div
-              className={`relative bg-gradient-to-r from-[#393E46] to-[#222831] rounded-2xl p-8 transition-all duration-300 border border-[#00ADB5]/20 ${
-                hoveredButton === "store"
-                  ? "transform scale-105 shadow-2xl border-[#00ADB5]/40"
-                  : "transform scale-100 shadow-lg"
-              }`}
+          <Link href="/dma-store" legacyBehavior>
+            <a
+              className="group relative flex-1 cursor-pointer"
+              onMouseEnter={() => setHoveredButton('store')}
+              onMouseLeave={() => setHoveredButton(null)}
             >
-              {/* NEW badge in corner */}
-              <div className="absolute -top-2 -right-2 bg-red-500 text-white text-xs font-bold px-2 py-1 rounded-full animate-pulse shadow-lg">
-                NEW
-              </div>
-
-              <div className="flex items-center justify-center space-x-3">
-                {/* Custom emoji with shopping bag icon */}
-                <div className="relative flex items-center">
-                  <ShoppingBag
-                    className={`w-8 h-8 text-[#00ADB5] transition-all duration-300 ${
-                      hoveredButton === "store" ? "animate-bounce" : ""
-                    }`}
+              {/* Hover glow effect */}
+              <div
+                className={`absolute inset-0 bg-gradient-to-r from-[#393E46] to-[#222831] rounded-2xl blur-lg transition-all duration-500 ${hoveredButton === "store" ? "opacity-60 scale-105" : "opacity-0 scale-100"
+                  }`}
+              />
+              {/* Main button */}
+              <div
+                className={`relative bg-gradient-to-r from-[#393E46] to-[#222831] rounded-2xl p-8 transition-all duration-300 border border-[#00ADB5]/20 ${hoveredButton === "store"
+                    ? "transform scale-105 shadow-2xl border-[#00ADB5]/40"
+                    : "transform scale-100 shadow-lg"
+                  }`}
+              >
+                {/* NEW badge in corner */}
+                <div className="absolute -top-2 -right-2 bg-red-500 text-white text-xs font-bold px-2 py-1 rounded-full animate-pulse shadow-lg">
+                  NEW
+                </div>
+                <div className="flex items-center justify-center space-x-3">
+                  <div className="relative flex items-center">
+                    <ShoppingBag
+                      className={`w-8 h-8 text-[#00ADB5] transition-all duration-300 ${hoveredButton === "store" ? "animate-bounce" : ""
+                        }`}
+                    />
+                  </div>
+                  <span className="text-2xl font-bold text-[#EEEEEE]">Razzosx DMA</span>
+                  <ExternalLink
+                    className={`w-6 h-6 text-[#EEEEEE]/80 transition-all duration-300 ${hoveredButton === "store" ? "opacity-100 transform translate-x-1" : "opacity-60"
+                      }`}
                   />
                 </div>
-                <span className="text-2xl font-bold text-[#EEEEEE]">Razzosx DMA</span>
-                <ExternalLink
-                  className={`w-6 h-6 text-[#EEEEEE]/80 transition-all duration-300 ${
-                    hoveredButton === "store" ? "opacity-100 transform translate-x-1" : "opacity-60"
-                  }`}
-                />
+                <p className="text-center text-[#EEEEEE]/90 mt-2">Website for DMA</p>
+                {/* Hover overlay */}
+                {hoveredButton === "store" && (
+                  <div className="absolute inset-0 bg-white/5 rounded-2xl animate-pulse"></div>
+                )}
               </div>
-              <p className="text-center text-[#EEEEEE]/90 mt-2">Website for DMA</p>
-
-              {/* Hover overlay */}
-              {hoveredButton === "store" && (
-                <div className="absolute inset-0 bg-white/5 rounded-2xl animate-pulse"></div>
-              )}
-            </div>
-          </div>
+            </a>
+          </Link>
         </div>
 
         {/* Decorative Elements - More subtle */}
