@@ -1,0 +1,223 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 222.2 84% 4.9%;
+    --foreground: 210 40% 98%;
+    --card: 217.2 32.6% 17.5%;
+    --card-foreground: 210 40% 98%;
+    --popover: 217.2 32.6% 17.5%;
+    --popover-foreground: 210 40% 98%;
+    --primary: 184 100% 35%;
+    --primary-foreground: 222.2 84% 4.9%;
+    --secondary: 217.2 32.6% 17.5%;
+    --secondary-foreground: 210 40% 98%;
+    --muted: 217.2 32.6% 17.5%;
+    --muted-foreground: 215 20.2% 65.1%;
+    --accent: 217.2 32.6% 17.5%;
+    --accent-foreground: 210 40% 98%;
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 210 40% 98%;
+    --border: 217.2 32.6% 17.5%;
+    --input: 217.2 32.6% 17.5%;
+    --ring: 184 100% 35%;
+    --radius: 0.75rem;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-background text-foreground;
+    background: linear-gradient(135deg, #222831 0%, #393e46 100%);
+  }
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #393e46;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #00adb5;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #008b94;
+}
+
+/* Glassmorphism effect with new colors */
+.glass {
+  background: rgba(57, 62, 70, 0.3);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(0, 173, 181, 0.2);
+}
+
+/* Neon glow effect with teal */
+.neon-glow {
+  box-shadow: 0 0 20px rgba(0, 173, 181, 0.4);
+}
+
+/* Animated gradient with new colors */
+.gradient-animate {
+  background: linear-gradient(-45deg, #00adb5, #008b94, #006b73, #004d52);
+  background-size: 400% 400%;
+  animation: gradient 15s ease infinite;
+}
+
+@keyframes gradient {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+/* Hover effects */
+.hover-lift {
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.hover-lift:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 30px rgba(0, 173, 181, 0.3);
+}
+
+/* Interactive button effects */
+.btn-interactive {
+  position: relative;
+  overflow: hidden;
+  transition: all 0.3s ease;
+}
+
+.btn-interactive::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(238, 238, 238, 0.2), transparent);
+  transition: left 0.5s;
+}
+
+.btn-interactive:hover::before {
+  left: 100%;
+}
+
+/* Pulse animation */
+.pulse-teal {
+  animation: pulse-teal 2s infinite;
+}
+
+@keyframes pulse-teal {
+  0%,
+  100% {
+    box-shadow: 0 0 0 0 rgba(0, 173, 181, 0.7);
+  }
+  70% {
+    box-shadow: 0 0 0 10px rgba(0, 173, 181, 0);
+  }
+}
+
+/* Floating animation */
+.float {
+  animation: float 6s ease-in-out infinite;
+}
+
+@keyframes float {
+  0%,
+  100% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-20px);
+  }
+}
+
+/* Slide in animations */
+.slide-in-left {
+  animation: slideInLeft 0.8s ease-out;
+}
+
+.slide-in-right {
+  animation: slideInRight 0.8s ease-out;
+}
+
+.slide-in-up {
+  animation: slideInUp 0.8s ease-out;
+}
+
+@keyframes slideInLeft {
+  from {
+    opacity: 0;
+    transform: translateX(-50px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes slideInRight {
+  from {
+    opacity: 0;
+    transform: translateX(50px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes slideInUp {
+  from {
+    opacity: 0;
+    transform: translateY(50px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Modal adjustments for better responsiveness */
+.dialog-content {
+  max-height: 85vh;
+  overflow-y: auto;
+  padding-bottom: 70px; /* Space for footer buttons */
+}
+
+.dialog-footer {
+  position: sticky;
+  bottom: 0;
+  background: rgba(57, 62, 70, 0.8);
+  backdrop-filter: blur(10px);
+  padding: 12px;
+  margin: 0 -24px -24px -24px;
+  border-top: 1px solid rgba(0, 173, 181, 0.2);
+}
+
+@media (max-width: 640px) {
+  .dialog-content {
+    max-height: 80vh;
+    padding-bottom: 60px;
+  }
+
+  .dialog-footer {
+    padding: 8px;
+  }
+}
