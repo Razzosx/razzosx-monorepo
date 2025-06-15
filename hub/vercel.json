@@ -6,5 +6,11 @@
     "razzosx-hub": {
       "source": "hub"
     }
-  }
+  },
+  "rewrites": [
+    {
+      "source": "/api/(.*)",
+      "destination": "/api/$1"
+    }
+  ]
 }
