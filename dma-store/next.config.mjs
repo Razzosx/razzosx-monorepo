@@ -9,6 +9,9 @@ const nextConfig = {
   images: {
     unoptimized: true,
   },
+  basePath: '/dma-store',
+  assetPrefix: '/dma-store',
+  output: 'standalone',
 }
 
 export default nextConfig
