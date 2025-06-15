@@ -2,7 +2,7 @@
 export default function DmaStorePage() {
   return (
     <iframe
-      src="https://razzosx-monorepo-rcj7.vercel.app//"
+      src="https://razzosx-monorepo-rcj7.vercel.app/"
       style={{
         width: "100vw",
         height: "100vh",
