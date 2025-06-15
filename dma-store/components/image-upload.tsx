@@ -1,8 +1,6 @@
 "use client"
 
-import type React from "react"
-
-import { useState, useRef } from "react"
+import React, { useState, useRef } from "react"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
 import { Label } from "@/components/ui/label"
@@ -14,8 +12,8 @@ import { useToast } from "@/hooks/use-toast"
 
 interface ImageUploadProps {
   value?: string
-  onChange: (url: string) => void
-  onRemove: () => void
+  onChange?: (url: string) => void
+  onRemove?: () => void
   disabled?: boolean
 }
 
@@ -29,7 +27,6 @@ export function ImageUpload({ value, onChange, onRemove, disabled }: ImageUpload
   const handleFileUpload = async (file: File) => {
     if (!file) return
 
-    // Validar tipo de arquivo
     if (!file.type.startsWith("image/")) {
       toast({
         title: "Erro",
@@ -39,7 +36,6 @@ export function ImageUpload({ value, onChange, onRemove, disabled }: ImageUpload
       return
     }
 
-    // Validar tamanho (máximo 5MB)
     if (file.size > 5 * 1024 * 1024) {
       toast({
         title: "Erro",
@@ -53,7 +49,6 @@ export function ImageUpload({ value, onChange, onRemove, disabled }: ImageUpload
     setUploadProgress(0)
 
     try {
-      // Simular progresso de upload
       const progressInterval = setInterval(() => {
         setUploadProgress((prev) => {
           if (prev >= 90) {
@@ -64,11 +59,9 @@ export function ImageUpload({ value, onChange, onRemove, disabled }: ImageUpload
         })
       }, 200)
 
-      // Criar FormData para upload
       const formData = new FormData()
       formData.append("file", file)
 
-      // Upload para Vercel Blob (simulado)
       const response = await fetch("/api/upload", {
         method: "POST",
         body: formData,
@@ -78,13 +71,16 @@ export function ImageUpload({ value, onChange, onRemove, disabled }: ImageUpload
         throw new Error("Falha no upload")
       }
 
-      const { url } = await response.json()
+      const data = await response.json()
+      const url = data.url
 
       clearInterval(progressInterval)
       setUploadProgress(100)
 
       setTimeout(() => {
-        onChange(url)
+        if (onChange) {
+          onChange(url)
+        }
         setUploadProgress(0)
         toast({
           title: "Sucesso",
@@ -138,7 +134,7 @@ export function ImageUpload({ value, onChange, onRemove, disabled }: ImageUpload
           <CardContent className="p-0">
             <div className="relative group">
               <div className="relative aspect-video w-full">
-                <Image src={value || "/placeholder.svg"} alt="Product image" fill className="object-cover" />
+                <Image src={value} alt="Product image" fill className="object-cover" />
               </div>
               <div className="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
                 <Button
@@ -212,7 +208,7 @@ export function ImageUpload({ value, onChange, onRemove, disabled }: ImageUpload
         disabled={disabled}
       />
 
-      <Alert className="bg-[#00ADB5]/10 border-[#00ADB5]/20">
+      <Alert className="bg-[#00ADB5]/10 border-[#00ADB5]/20 flex items-center space-x-2">
         <ImageIcon className="h-4 w-4 text-[#00ADB5]" />
         <AlertDescription className="text-[#EEEEEE]/70">
           Recomendamos imagens com proporção 16:9 (1920x1080px) para melhor visualização.

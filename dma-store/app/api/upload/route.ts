@@ -10,23 +10,19 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: "Nenhum arquivo fornecido" }, { status: 400 })
     }
 
-    // Validar tipo de arquivo
     if (!file.type.startsWith("image/")) {
       return NextResponse.json({ error: "Apenas arquivos de imagem são permitidos" }, { status: 400 })
     }
 
-    // Validar tamanho (5MB)
     if (file.size > 5 * 1024 * 1024) {
       return NextResponse.json({ error: "Arquivo muito grande. Máximo 5MB." }, { status: 400 })
     }
 
-    // Gerar nome único para o arquivo
     const timestamp = Date.now()
     const randomString = Math.random().toString(36).substring(2, 15)
     const extension = file.name.split(".").pop()
     const filename = `products/${timestamp}-${randomString}.${extension}`
 
-    // Upload para Vercel Blob
     const blob = await put(filename, file, {
       access: "public",
     })
