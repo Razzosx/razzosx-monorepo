@@ -553,8 +553,11 @@ export default function DashboardPage() {
                     </Label>
                   </div>
                   <div className="space-y-2">
-                    <Label className="text-[#EEEEEE]">Product Image</Label>
-                    <ImageUpload onUpload={handleImageUpload} defaultImage={productForm.image_url} />
+                      <ImageUpload 
+                        onChange={handleImageUpload}
+                        onRemove={() => setProductForm((prev) => ({ ...prev, image_url: "" }))}
+                        value={productForm.image_url}
+                     />
                   </div>
                 </div>
                 <DialogFooter>
@@ -1154,8 +1157,11 @@ export default function DashboardPage() {
               </Label>
             </div>
             <div className="space-y-2">
-              <Label className="text-[#EEEEEE]">Product Image</Label>
-              <ImageUpload onUpload={handleImageUpload} defaultImage={productForm.image_url} />
+                      <ImageUpload 
+                        onChange={handleImageUpload}
+                        onRemove={() => setProductForm((prev) => ({ ...prev, image_url: "" }))}
+                        value={productForm.image_url}
+                     />
             </div>
           </div>
           <DialogFooter>

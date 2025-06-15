@@ -1,6 +1,7 @@
 "use client"
 
-import React, { useState, useRef } from "react"
+import type React from "react"
+import { useState, useRef } from "react"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
 import { Label } from "@/components/ui/label"
@@ -17,7 +18,12 @@ interface ImageUploadProps {
   disabled?: boolean
 }
 
-export function ImageUpload({ value, onChange, onRemove, disabled }: ImageUploadProps) {
+export function ImageUpload({
+  value,
+  onChange = () => {},
+  onRemove = () => {},
+  disabled,
+}: ImageUploadProps) {
   const [uploading, setUploading] = useState(false)
   const [uploadProgress, setUploadProgress] = useState(0)
   const [dragActive, setDragActive] = useState(false)
@@ -27,19 +33,21 @@ export function ImageUpload({ value, onChange, onRemove, disabled }: ImageUpload
   const handleFileUpload = async (file: File) => {
     if (!file) return
 
+    // Validar tipo de arquivo
     if (!file.type.startsWith("image/")) {
       toast({
-        title: "Erro",
-        description: "Por favor, selecione apenas arquivos de imagem",
+        title: "Error",
+        description: "Please select image files only",
         variant: "destructive",
       })
       return
     }
 
+    // Validar tamanho (máximo 5MB)
     if (file.size > 5 * 1024 * 1024) {
       toast({
         title: "Erro",
-        description: "A imagem deve ter no máximo 5MB",
+        description: "The image must be no larger than 5MB",
         variant: "destructive",
       })
       return
@@ -49,6 +57,7 @@ export function ImageUpload({ value, onChange, onRemove, disabled }: ImageUpload
     setUploadProgress(0)
 
     try {
+      // Simular progresso de upload
       const progressInterval = setInterval(() => {
         setUploadProgress((prev) => {
           if (prev >= 90) {
@@ -59,39 +68,38 @@ export function ImageUpload({ value, onChange, onRemove, disabled }: ImageUpload
         })
       }, 200)
 
+      // Criar FormData para upload
       const formData = new FormData()
       formData.append("file", file)
 
+      // Upload para Vercel Blob (simulado)
       const response = await fetch("/api/upload", {
         method: "POST",
         body: formData,
       })
 
       if (!response.ok) {
-        throw new Error("Falha no upload")
+        throw new Error("Upload failed")
       }
 
-      const data = await response.json()
-      const url = data.url
+      const { url } = await response.json()
 
       clearInterval(progressInterval)
       setUploadProgress(100)
 
       setTimeout(() => {
-        if (onChange) {
-          onChange(url)
-        }
+        onChange(url)
         setUploadProgress(0)
         toast({
-          title: "Sucesso",
-          description: "Imagem enviada com sucesso!",
+          title: "Success",
+          description: "Image uploaded successfully!",
         })
       }, 500)
     } catch (error) {
-      console.error("Erro no upload:", error)
+      console.error("Upload error:", error)
       toast({
         title: "Erro",
-        description: "Falha ao enviar imagem. Tente novamente.",
+        description: "Failed to upload image. Please try again.",
         variant: "destructive",
       })
     } finally {
@@ -127,14 +135,14 @@ export function ImageUpload({ value, onChange, onRemove, disabled }: ImageUpload
 
   return (
     <div className="space-y-4">
-      <Label className="text-[#EEEEEE]">Imagem do Produto</Label>
+      <Label className="text-[#EEEEEE]">Product Image</Label>
 
       {value ? (
         <Card className="glass border-[#00ADB5]/20 overflow-hidden">
           <CardContent className="p-0">
             <div className="relative group">
               <div className="relative aspect-video w-full">
-                <Image src={value} alt="Product image" fill className="object-cover" />
+                <Image src={value || "/placeholder.svg"} alt="Product image" fill className="object-cover" />
               </div>
               <div className="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
                 <Button
@@ -146,7 +154,7 @@ export function ImageUpload({ value, onChange, onRemove, disabled }: ImageUpload
                   className="bg-red-500 hover:bg-red-600"
                 >
                   <X className="h-4 w-4 mr-2" />
-                  Remover
+                  Remove
                 </Button>
               </div>
             </div>
@@ -170,7 +178,7 @@ export function ImageUpload({ value, onChange, onRemove, disabled }: ImageUpload
                   <Loader2 className="h-12 w-12 text-[#00ADB5] animate-spin" />
                   <div className="w-full max-w-xs">
                     <Progress value={uploadProgress} className="h-2" />
-                    <p className="text-sm text-[#EEEEEE]/70 mt-2">Enviando... {uploadProgress}%</p>
+                    <p className="text-sm text-[#EEEEEE]/70 mt-2">Uploading... {uploadProgress}%</p>
                   </div>
                 </>
               ) : (
@@ -179,8 +187,8 @@ export function ImageUpload({ value, onChange, onRemove, disabled }: ImageUpload
                     <ImageIcon className="h-8 w-8 text-[#00ADB5]" />
                   </div>
                   <div>
-                    <p className="text-[#EEEEEE] font-medium mb-2">Clique para enviar ou arraste uma imagem</p>
-                    <p className="text-[#EEEEEE]/70 text-sm">PNG, JPG, WEBP até 5MB</p>
+                    <p className="text-[#EEEEEE] font-medium mb-2">Click to upload or drag an image</p>
+                    <p className="text-[#EEEEEE]/70 text-sm">PNG, JPG, WEBP up to 5MB</p>
                   </div>
                   <Button
                     type="button"
@@ -190,7 +198,7 @@ export function ImageUpload({ value, onChange, onRemove, disabled }: ImageUpload
                     disabled={disabled}
                   >
                     <Upload className="h-4 w-4 mr-2" />
-                    Selecionar Arquivo
+                    Select File
                   </Button>
                 </>
               )}
@@ -208,10 +216,10 @@ export function ImageUpload({ value, onChange, onRemove, disabled }: ImageUpload
         disabled={disabled}
       />
 
-      <Alert className="bg-[#00ADB5]/10 border-[#00ADB5]/20 flex items-center space-x-2">
+      <Alert className="bg-[#00ADB5]/10 border-[#00ADB5]/20">
         <ImageIcon className="h-4 w-4 text-[#00ADB5]" />
         <AlertDescription className="text-[#EEEEEE]/70">
-          Recomendamos imagens com proporção 16:9 (1920x1080px) para melhor visualização.
+          We recommend images with a 16:9 ratio (1920x1080px) for best display.
         </AlertDescription>
       </Alert>
     </div>
