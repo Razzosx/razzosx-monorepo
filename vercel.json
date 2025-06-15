@@ -1,12 +1,14 @@
 {
-  "rewrites": [
+  "buildCommand": "pnpm build",
+  "outputDirectory": "dist",
+  "routes": [
     {
-      "source": "/dma-store/:path*",
-      "destination": "/dma-store/:path*"
+      "src": "/dma-store/(.*)",
+      "dest": "/dma-store/$1"
     },
     {
-      "source": "/:path*",
-      "destination": "/hub/:path*"
+      "src": "/(.*)",
+      "dest": "/hub/$1"
     }
   ]
 }
