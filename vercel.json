@@ -1,0 +1,10 @@
+{
+  "projects": {
+    "razzosx-dma-store": {
+      "source": "dma-store"
+    },
+    "v0-razzosx-professional-hub": {
+      "source": "hub"
+    }
+  }
+}
