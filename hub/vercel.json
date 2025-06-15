@@ -1,8 +1,24 @@
 {
-  "rewrites": [
+  "projects": [
     {
-      "source": "/dma-store/:match*",
-      "destination": "https://razzosx-monorepo-rcj7.vercel.app/:match*"
+      "src": "dma-store/**",
+      "use": "@vercel/next",
+      "config": { "distDir": "dma-store/.next" }
+    },
+    {
+      "src": "hub/**",
+      "use": "@vercel/next",
+      "config": { "distDir": "hub/.next" }
+    }
+  ],
+  "routes": [
+    {
+      "src": "/dma-store(.*)",
+      "dest": "dma-store$1"
+    },
+    {
+      "src": "/hub(.*)",
+      "dest": "hub$1"
     }
   ]
 }
