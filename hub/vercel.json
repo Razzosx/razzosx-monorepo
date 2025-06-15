@@ -2,7 +2,7 @@
   "rewrites": [
     {
       "source": "/dma-store/:match*",
-      "destination": "https://razzosx-monorepo-rc7.vercel.app/:match*"
+      "destination": "https://razzosx-monorepo-rcj7.vercel.app/:match*"
     }
   ]
 }
