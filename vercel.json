@@ -1,14 +1,10 @@
 {
-  "buildCommand": "pnpm build",
-  "outputDirectory": "dist",
-  "routes": [
-    {
-      "src": "/dma-store/(.*)",
-      "dest": "/dma-store/$1"
+  "projects": {
+    "razzosx-dma-store": {
+      "source": "dma-store"
     },
-    {
-      "src": "/(.*)",
-      "dest": "/hub/$1"
+    "razzosx-hub": {
+      "source": "hub"
     }
-  ]
+  }
 }
